@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Inventory System</title>
+  <link rel="stylesheet" href="{% static './style.css'%}">
+</head>
+<body>
+  <nav>
+    <div class="navber">
+      <h1>Car Inventory System</h1>
+    </div>
+  </nav>
+
+  <!-- Form -->
+  <div class="form">
+    <form action="{% url 'add_car' %}" method="post">
+        {% csrf_token %}
+        <div class="form-control">
+          <label for="car_type">Select car type (Electric/Gas): </label>
+          <select name="car_type" id="car_type">
+            <option value=""></option>
+            <option value="electric">Electric</option>
+            <option value="gas">Gas</option>
+          </select>
+        </div>
+        <div class="form-control">
+          <label for="name">Enter Name: </label>
+          <input type="text" name="name">
+        </div>
+        <div class="form-control">
+          <label for="model">Enter model: </label>
+          <input type="text" name="model">
+        </div>
+        <div class="form-control">
+          <label for="year">Enter year: </label>
+          <input type="number" name="year">
+        </div>
+        
+        <div class="form-control" id="battery">
+          <label for="battery">Enter battery capacity (kWh): </label>
+          <input type="number" step="0.01" id="batteryCapacity" name="battery">
+        </div>
+        <div class="form-control" id="fuel">
+          <label for="fuel">Enter fuel efficiency (MPG): </label>
+          <input type="number" step="0.01" id="fuelEfficiency" name="fuel">
+        </div>
+       
+        <div class="form-control">
+          <input type="submit" value="Add Car">
+        </div>
+
+    </form>
+  </div>
+
+<script >
+  const carType = document.getElementById('car_type')
+  const battery = document.getElementById('battery')
+  const fuel = document.getElementById('fuel')
+  battery.style.display = "none"
+  fuel.style.display = "none"
+  
+  carType.addEventListener('change', function(){
+
+    if (carType.value == 'electric'){
+       fuel.style.display = 'none'
+       battery.style.display = "block"
+     }
+    else if (carType.value == ''){
+      fuel.style.display = 'none'
+      battery.style.display = 'none'
+     }
+     else{
+       battery.style.display = 'none'
+       fuel.style.display = "block"
+     }
+   })
+
+   const batteryCapacityInput = document.getElementById("batteryCapacity");
+   const fuelEfficiencyInput = document.getElementById("fuelEfficiency");
+   if (batteryCapacityInput) {
+    batteryCapacityInput.required = (carType === "electric");
+}
+
+if (fuelEfficiencyInput) {
+    fuelEfficiencyInput.required = (carType === "gas");
+}
+   
+</script>
+
+</body>
+</html>
